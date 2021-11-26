@@ -73,6 +73,8 @@ static Key keys[] = {
     TAGKEYS(                        XK_9,                      8)
     { MODKEY,                       XK_0,      view,           {.ui = ~0 } },
     { MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
+    { MODKEY,                       XK_BackSpace,   spawn,      SHCMD("system_action.sh") },
+    { MODKEY|ShiftMask,             XK_BackSpace,   spawn,      SHCMD("system_action.sh") },
 
     { MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
     { MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
@@ -95,7 +97,8 @@ static Key keys[] = {
     { MODKEY,                       XK_period, focusmon,       {.i = +1 } },
     { MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
     { MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-    { MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+    { MODKEY,                       XK_q,      killclient,      {0} },
+    { MODKEY|ShiftMask,             XK_q,      spawn,           SHCMD("system_action.sh") },
 };
 
 /* button definitions */
