@@ -35,6 +35,11 @@ static Sp scratchpads[] = {
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+
+static const char ptagf[] = "[%s %s]";  /* format of a tag label */
+static const char etagf[] = "[%s]"; /* format of an empty tag */
+static const int lcaselbl = 0;      /* 1 means make tag label lowercase */
+
 static const Rule rules[] = {
     /* xprop(1):
      *  WM_CLASS(STRING) = instance, class
