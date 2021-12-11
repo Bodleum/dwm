@@ -160,9 +160,9 @@ typedef struct {
     const char *title;
     unsigned int tags;
     int isfloating;
-    int monitor;
     int isterminal;
     int noswallow;
+    int monitor;
 } Rule;
 
 /* function declarations */
