@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
-#define TERMINAL "st"      // sh command to open the terminal
-#define TERMCLASS "St"
+#define TERMINAL "alacritty"      // sh command to open the terminal
+#define TERMCLASS "Alacritty"
 
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
@@ -183,14 +183,14 @@ static Key keys[] = {
 
     //{ MODKEY,                       XK_a,           spawn,          SHCMD("") },
     //{ MODKEY|ShiftMask,             XK_a,           spawn,          SHCMD("") },
-    //{ MODKEY,                       XK_s,           spawn,          SHCMD("") },    // Make window sticky
+    { MODKEY,                       XK_s,           togglesticky,     {0} },    // Make window sticky
     //{ MODKEY|ShiftMask,             XK_s,           spawn,          SHCMD("") },
     { MODKEY,                       XK_d,           spawn,          SHCMD("dmenu_run") },   // Launch a program, try and change to just MOD
     //{ MODKEY|ShiftMask,             XK_d,           spawn,          SHCMD("") },
     { MODKEY,                       XK_f,           spawn,          SHCMD(TERMINAL " -e ferdi") },  // Launch ferdi
     { MODKEY|ShiftMask,             XK_f,           togglefullscr,  {0} },  // Toggle full screen
-    //{ MODKEY,                       XK_g,           togglegaps,     {0} },  // Toggle gaps
-    //{ MODKEY|ShiftMask,             XK_g,           defaultgaps,    {0} },  // Reset gaps to default
+    { MODKEY,                       XK_g,           togglegaps,     {0} },  // Toggle gaps
+    { MODKEY|ShiftMask,             XK_g,           defaultgaps,    {0} },  // Reset gaps to default
     { MODKEY,                       XK_h,           setmfact,       {.f = -0.05} }, // Reduce size of master window
     //{ MODKEY|ShiftMask,             XK_h,           spawn,          SHCMD("") },
     /*
@@ -205,9 +205,9 @@ static Key keys[] = {
     //{ MODKEY,                       XK_backslash,   spawn,          SHCMD("") },
     //{ MODKEY|ShiftMask,             XK_backslash,   spawn,          SHCMD("") },
 
-    //{ MODKEY,                       XK_z,           incrgaps,       {.i = +3} },    // Increase gaps
+    { MODKEY,                       XK_z,           incrgaps,       {.i = +3} },    // Increase gaps
     //{ MODKEY|ShiftMask,             XK_z,           spawn,          SHCMD("") },
-    //{ MODKEY,                       XK_x,           incrgaps        {.i = -3} },    // Decrease gaps
+    { MODKEY,                       XK_x,           incrgaps        {.i = -3} },    // Decrease gaps
     //{ MODKEY|ShiftMask,             XK_x,           spawn,          SHCMD("") },
     //{ MODKEY,                       XK_c,           spawn,          SHCMD("") },
     { MODKEY|ShiftMask,             XK_c,           spawn,          SHCMD("mpv --no-cache --no-osc --on-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=Webcam $(ls /dev/video[0,2,4,6,8] | tail -n 1)") },    // Open webcam
