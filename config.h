@@ -58,7 +58,7 @@ static const Rule rules[] = {
      */
     /* class      instance    title       tags mask     isfloating   monitor */
     /* class     instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
-    { "Firefox", NULL,     NULL,           1 << 8,    0,          0,          -1,        -1 },
+    { "Vivaldi", NULL,     NULL,           1 << 8,    0,          0,          -1,        -1 },
     { TERMCLASS, NULL,     NULL,           0,         0,          1,           0,        -1 },
     { NULL,      NULL,     "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
     { NULL,      "spterm", NULL,           SPTAG(0),  1,          1,           0,        -1 },
@@ -121,6 +121,9 @@ static const char *termcmd[]  = { TERMINAL, NULL };
 
 static Key keys[] = {
     /* modifier                     key             function        argument */
+    STACKKEYS(MODKEY,                               focus)
+    STACKKEYS(MODKEY|ShiftMask,                     push)
+
     //{ MODKEY,                       XK_escape,      spawn,          SHCMD("") },
     //{ MODKEY,                       XK_F1,          spawn,          SHCMD("") },
     //{ MODKEY,                       XK_F2,          spawn,          SHCMD("") },
@@ -178,11 +181,11 @@ static Key keys[] = {
     //{ MODKEY|ShiftMask,             XK_p,           spawn,          SHCMD("") },
     //{ MODKEY,                       XK_bracketleft, spawn,          SHCMD("") },
     //{ MODKEY|ShiftMask,             XK_bracketleft, spawn,          SHCMD("") },
-    //{ MODKEY,                       XK_bracketright, spawn,          SHCMD("") },
-    //{ MODKEY|ShiftMask,             XK_bracketright, spawn,          SHCMD("") },
+    //{ MODKEY,                       XK_bracketright,spawn,          SHCMD("") },
+    //{ MODKEY|ShiftMask,             XK_bracketright,spawn,          SHCMD("") },
 
     //{ MODKEY,                       XK_a,           spawn,          SHCMD("") },
-    //{ MODKEY|ShiftMask,             XK_a,           spawn,          SHCMD("") },
+    //{ MODKEY|ShiftMask,             XK_a,           spawn,          SHAMED("") },
     { MODKEY,                       XK_s,           togglesticky,     {0} },    // Make window sticky
     //{ MODKEY|ShiftMask,             XK_s,           spawn,          SHCMD("") },
     { MODKEY,                       XK_d,           spawn,          SHCMD("dmenu_run") },   // Launch a program, try and change to just MOD
@@ -200,7 +203,7 @@ static Key keys[] = {
     //{ MODKEY|ShiftMask,             XK_l,           spawn,          SHCMD("") },
     //{ MODKEY,                       XK_semicolon,   spawn,          SHCMD("") },
     //{ MODKEY|ShiftMask,             XK_semicolon,   spawn,          SHCMD("") },
-    //{ MODKEY,                       XK_apostrophe,  spawn,          SHCMD("") },
+    { MODKEY,                       XK_apostrophe,  togglescratch,  {.ui = 1} },    // Open calculator
     //{ MODKEY|ShiftMask,             XK_apostrophe,  spawn,          SHCMD("") },
     //{ MODKEY,                       XK_backslash,   spawn,          SHCMD("") },
     //{ MODKEY|ShiftMask,             XK_backslash,   spawn,          SHCMD("") },
@@ -229,7 +232,7 @@ static Key keys[] = {
     { MODKEY|ShiftMask,             XK_space,       togglefloating, {0} },  // Toggle floating
 
     { MODKEY,                       XK_Return,      spawn,          {.v = termcmd} },   // Open terminal
-    //{ MODKEY|ShiftMask,             XK_Return,      spawn,          SHCMD("") },    // Floating terminal
+    { MODKEY|ShiftMask,             XK_Return,      togglescratch,  {.ui = 0} },    // Floating terminal
     //{ MODKEY,                       XK_Insert,      spawn,          SHCMD("") },    // Select from clipboard
     { 0,                            XK_Print,       spawn,          SHCMD("prtscr.sh") },   // Print screen dmenu prompt
 
