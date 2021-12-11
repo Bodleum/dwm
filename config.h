@@ -1,6 +1,6 @@
 /* See LICENSE file for copyright and license details. */
 
-TERMIAL = "st"      // sh command to open the terminal
+#define TERMINAL "st"      // sh command to open the terminal
 
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
@@ -95,8 +95,8 @@ static Key keys[] = {
     //{ MODKEY|ShiftMask,             XK_minus,       spawn,          SHCMD("") },
     //{ MODKEY,                       XK_equal,       spawn,          SHCMD("") },
     //{ MODKEY|ShiftMask,             XK_equal,       spawn,          SHCMD("") },
-    { MODKEY,                       XK_Backspace,   spawn,          SHCMD("system_action.sh") },    // System action
-    { MODKEY|ShiftMask,             XK_Backspace,   spawn,          SHCMD("system_action.sh") },    // System action
+    { MODKEY,                       XK_BackSpace,   spawn,          SHCMD("system_action.sh") },    // System action
+    { MODKEY|ShiftMask,             XK_BackSpace,   spawn,          SHCMD("system_action.sh") },    // System action
 
     //{ MODKEY,                       XK_Tab,         spawn,          SHCMD("") },
     { MODKEY,                       XK_q,           killclient,     {0} },   // Close current window
@@ -131,7 +131,7 @@ static Key keys[] = {
     { MODKEY,                       XK_d,           spawn,          SHCMD("dmenu_run") },   // Launch a program, try and change to just MOD
     //{ MODKEY|ShiftMask,             XK_d,           spawn,          SHCMD("") },
     { MODKEY,                       XK_f,           spawn,          SHCMD(TERMINAL " -e ferdi") },  // Launch ferdi
-    { MODKEY|ShiftMask,             XK_f,           togglefullscr,  {0} },  // Toggle full screen
+    //{ MODKEY|ShiftMask,             XK_f,           togglefullscr,  {0} },  // Toggle full screen
     //{ MODKEY,                       XK_g,           togglegaps,     {0} },  // Toggle gaps
     //{ MODKEY|ShiftMask,             XK_g,           defaultgaps,    {0} },  // Reset gaps to default
     { MODKEY,                       XK_h,           setmfact,       {.f = -0.05} }, // Reduce size of master window
