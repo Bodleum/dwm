@@ -211,7 +211,7 @@ static Key keys[] = {
     { MODKEY,                       XK_x,           incrgaps,       {.i = -3} },    // Decrease gaps
     //{ MODKEY|ShiftMask,             XK_x,           spawn,          SHCMD("") },
     //{ MODKEY,                       XK_c,           spawn,          SHCMD("") },
-    { MODKEY|ShiftMask,             XK_c,           spawn,          SHCMD("mpv --no-cache --no-osc --on-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=Webcam $(ls /dev/video[0,2,4,6,8] | tail -n 1)") },    // Open webcam
+    { MODKEY|ShiftMask,             XK_c,           spawn,          SHCMD("mpv --no-cache --no-osc --no-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=Webcam $(/bin/ls /dev/video[0,2,4,6,8] | tail -n 1)") },    // Open webcam
     /*
         V is bound in STACKKEYS
     */
