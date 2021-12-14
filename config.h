@@ -4,7 +4,7 @@
 #define TERMCLASS "Alacritty"
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int borderpx  = 3;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
 static const unsigned int gappih    = 20;       /* horiz inner gap between windows */
@@ -21,10 +21,12 @@ static const char col_gray2[]       = "#504945";
 static const char col_gray3[]       = "#a89984";
 static const char col_gray4[]       = "#fbf1c7";
 static const char col_blue[]        = "#458588";
+static const char col_green[]       = "#98971a";
 static const char *colors[][3]      = {
-    /*               fg         bg         border   */
-    [SchemeNorm] = { col_gray4, col_gray1, col_gray1 },
-    [SchemeSel]  = { col_gray4, col_blue,  col_blue  },
+    /*                  fg         bg         border   */
+    [SchemeNorm]    = { col_gray4, col_gray1, col_gray1 },
+    [SchemeWinSel]     = { col_gray4, col_green, col_green },
+    [SchemeBar]  = { col_gray4, col_blue,  col_blue  },
 };
 
 typedef struct {
