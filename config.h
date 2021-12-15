@@ -22,9 +22,25 @@ static const char col_gray3[]       = "#a89984";
 static const char col_gray4[]       = "#fbf1c7";
 static const char col_blue[]        = "#458588";
 static const char col_green[]       = "#98971a";
+static const char col1[]            = "#ffffff";
+static const char col2[]            = "#ffffff";
+static const char col3[]            = "#ffffff";
+static const char col4[]            = "#ffffff";
+static const char col5[]            = "#ffffff";
+static const char col6[]            = "#ffffff";
+
+enum { SchemeNorm, SchemeCol1, SchemeCol2, SchemeCol3, SchemeCol4,
+       SchemeCol5, SchemeCol6, SchemeWinSel, SchemeBar }; /* color schemes */
+
 static const char *colors[][3]      = {
     /*                  fg         bg         border   */
     [SchemeNorm]    = { col_gray4, col_gray1, col_gray1 },
+    [SchemeCol1]  = { col1,      col_gray1, col_gray2 },
+    [SchemeCol2]  = { col2,      col_gray1, col_gray2 },
+    [SchemeCol3]  = { col3,      col_gray1, col_gray2 },
+    [SchemeCol4]  = { col4,      col_gray1, col_gray2 },
+    [SchemeCol5]  = { col5,      col_gray1, col_gray2 },
+    [SchemeCol6]  = { col6,      col_gray1, col_gray2 },
     [SchemeWinSel]     = { col_gray4, col_green, col_green },
     [SchemeBar]  = { col_gray4, col_blue,  col_blue  },
 };
@@ -252,7 +268,16 @@ static Key keys[] = {
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
     /* click                event mask      button          function        argument */
-    { ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
+#ifndef __OpenBSD__
+    { ClkWinTitle,          0,              Button2,        zoom,           {0} },
+    { ClkStatusText,        0,              Button1,        sigdwmblocks,   {.i = 1} },
+    { ClkStatusText,        0,              Button2,        sigdwmblocks,   {.i = 2} },
+    { ClkStatusText,        0,              Button3,        sigdwmblocks,   {.i = 3} },
+    { ClkStatusText,        0,              Button4,        sigdwmblocks,   {.i = 4} },
+    { ClkStatusText,        0,              Button5,        sigdwmblocks,   {.i = 5} },
+    { ClkStatusText,        ShiftMask,      Button1,        sigdwmblocks,   {.i = 6} },
+#endif
+    { ClkStatusText,        ShiftMask,      Button3,        spawn,          SHCMD(TERMINAL " -e nvim ~/.local/src/dwmblocks/config.h") },
     { ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
     { ClkClientWin,         MODKEY,         Button2,        defaultgaps,    {0} },
     { ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
