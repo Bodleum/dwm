@@ -14,7 +14,7 @@ static const unsigned int gappov    = 30;       /* vert outer gap between window
 static       int smartgaps          = 1;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=14", "NotoColorEmoji:antialias=true:autohint=true:pixelsize=20", "JoyPixels:pixelsize=20:antialias=true:autohint=true" };
+static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=14", "NotoColorEmoji:antialias=true:autohint=true:pixelsize=20", "JoyPixels:pixelsize=20:antialias=true:autohint=true" };
 static const char dmenufont[]       = "monospace:size=12";
 static const char col_white[]       = "#fbf1c7";
 static const char col0[]            = "#282828";
