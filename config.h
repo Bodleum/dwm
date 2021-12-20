@@ -219,7 +219,7 @@ static Key keys[] = {
     //{ MODKEY|ShiftMask,             XK_q,           spawn,          SHCMD("") },
     { MODKEY,                       XK_w,           spawn,          SHCMD("$BROWSER") }, // Open web browser
     { MODKEY|ShiftMask,             XK_w,           spawn,          SHCMD(TERMINAL " -e sudo nmtui") }, // nmtui for network configuration
-    { MODKEY,                       XK_e,           spawn,          SHCMD(TERMINAL " -e mailsync && neomutt") },    // Sync email and open neomutt. TODO: Signal dwmblocks to update email.
+    { MODKEY,                       XK_e,           spawn,          SHCMD(TERMINAL " -e neomutt") },    // Sync email and open neomutt. TODO: Signal dwmblocks to update email.
     { MODKEY|ShiftMask,             XK_e,           spawn,          SHCMD(TERMINAL " -e abook") },  // Open abook
     //{ MODKEY,                       XK_r,           spawn,          SHCMD("") },
     //{ MODKEY|ShiftMask,             XK_r,           spawn,          SHCMD("") },
