@@ -34,6 +34,7 @@ static const char col12[]           = "#83a598";
 static const char col13[]           = "#d3869b";
 static const char col14[]           = "#8ec07c";
 static const char col15[]           = "#ebdbb2";
+static const char col16[]           = "#d65d0e";
 
 enum {  SchemeCol0,
         SchemeCol1,
@@ -51,6 +52,7 @@ enum {  SchemeCol0,
         SchemeCol13,
         SchemeCol14,
         SchemeCol15,
+        SchemeCol16,
         SchemeNorm,
         SchemeWinSel,
         SchemeBar
@@ -74,6 +76,7 @@ static const char *colors[][3]      = {
     [SchemeCol13]   = { col13,     col0,    col0 },
     [SchemeCol14]   = { col14,     col0,    col0 },
     [SchemeCol15]   = { col15,     col0,    col0 },
+    [SchemeCol16]   = { col16,     col0,    col0 },
     [SchemeNorm]    = { col_white, col0,    col0 },
     [SchemeWinSel]  = { col_white, col2,    col2 },
     [SchemeBar]     = { col_white, col4,    col4 },
