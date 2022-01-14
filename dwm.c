@@ -2651,6 +2651,7 @@ main(int argc, char *argv[])
         die("pledge");
 #endif /* __OpenBSD__ */
     scan();
+    system("killall -q dwmblocks; dwmblocks &");     // Auto start dwmblocks
     run();
     if(restart) execvp(argv[0], argv);
     cleanup();
