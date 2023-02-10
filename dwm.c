@@ -505,9 +505,15 @@ void buttonpress(XEvent *e) {
   }
   if (ev->window == selmon->barwin) {
     i = x = 0;
-    do
+    unsigned int occ = 0;
+    for (c = m->clients; c; c = c->next)
+      occ |= c->tags;
+    do {
+      /* Do not reserve space for vacant tags */
+      if (!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
+        continue;
       x += TEXTW(tags[i]);
-    while (ev->x >= x && ++i < LENGTH(tags));
+    } while (ev->x >= x && ++i < LENGTH(tags));
     if (i < LENGTH(tags)) {
       click = ClkTagBar;
       arg.ui = 1 << i;
@@ -806,16 +812,15 @@ void drawbar(Monitor *m) {
   }
   x = 0;
   for (i = 0; i < LENGTH(tags); i++) {
+    /* Do not draw vacant tags */
+    if (!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
+      continue;
     w = TEXTW(tags[i]);
     wdelta = selmon->alttag ? abs(TEXTW(tags[i]) - TEXTW(tagsalt[i])) / 2 : 0;
     drw_setscheme(
         drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
     drw_text(drw, x, 0, w, bh, wdelta + lrpad / 2,
              (selmon->alttag ? tagsalt[i] : tags[i]), urg & 1 << i);
-    if (occ & 1 << i)
-      drw_rect(drw, x + boxs, boxs, boxw, boxw,
-               m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
-               urg & 1 << i);
     x += w;
   }
   w = TEXTW(m->ltsymbol);
@@ -1926,9 +1931,9 @@ void swal(Client *swer, Client *swee, int manage) {
 /*
  * Register a future swallow with swallower. 'c' 'class', 'inst' and 'title'
  * shall point null-terminated strings or be NULL, implying a wildcard. If an
- * already existing swallow instance targets 'c' its filters are updated and no
- * new swallow instance is created. 'c' may be ClientRegular or ClientSwallowee.
- * Complement to swalrm().
+ * already existing swallow instance targets 'c' its filters are updated and
+ * no new swallow instance is created. 'c' may be ClientRegular or
+ * ClientSwallowee. Complement to swalrm().
  */
 void swalreg(Client *c, const char *class, const char *inst,
              const char *title) {
@@ -1973,8 +1978,8 @@ void swalreg(Client *c, const char *class, const char *inst,
 }
 
 /*
- * Decrease decay counter of all registered swallows by 'decayby' and remove any
- * swallow instances whose counter is less than or equal to zero.
+ * Decrease decay counter of all registered swallows by 'decayby' and remove
+ * any swallow instances whose counter is less than or equal to zero.
  */
 void swaldecayby(int decayby) {
   Swallow *s, *t;
@@ -2025,8 +2030,8 @@ void swalmanage(Swallow *s, Window w, XWindowAttributes *wa) {
 
 /*
  * Return swallow instance which targets window 'w' as determined by its class
- * name, instance name and window title. Returns NULL if none is found. Pendant
- * to wintoclient().
+ * name, instance name and window title. Returns NULL if none is found.
+ * Pendant to wintoclient().
  */
 Swallow *swalmatch(Window w) {
   XClassHint ch = {NULL, NULL};
@@ -2108,7 +2113,8 @@ void swalrm(Swallow *s) {
 }
 
 /*
- * Removes swallow instance targeting 'c' if it exists. Complement to swalreg().
+ * Removes swallow instance targeting 'c' if it exists. Complement to
+ * swalreg().
  */
 void swalunreg(Client *c) {
   Swallow *s;
@@ -2570,9 +2576,9 @@ Client *wintoclient(Window w) {
 
 /*
  * Writes client managing window 'w' into 'pc' and returns type of client. If
- * no client is found NULL is written to 'pc' and zero is returned. If a client
- * is found and is a swallower (ClientSwallower) and proot is not NULL the root
- * client of the swallow chain is written to 'proot'.
+ * no client is found NULL is written to 'pc' and zero is returned. If a
+ * client is found and is a swallower (ClientSwallower) and proot is not NULL
+ * the root client of the swallow chain is written to 'proot'.
  */
 int wintoclient2(Window w, Client **pc, Client **proot) {
   Monitor *m;
