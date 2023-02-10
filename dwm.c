@@ -265,6 +265,8 @@ static void setmfact(const Arg *arg);
 static void setup(void);
 static void seturgent(Client *c, int urg);
 static void showhide(Client *c);
+static void sighup(int unused);
+static void sigterm(int unused);
 static void spawn(const Arg *arg);
 static void swal(Client *swer, Client *swee, int manage);
 static void swalreg(Client *c, const char *class, const char *inst,
@@ -334,6 +336,7 @@ static void (*handler[LASTEvent])(XEvent *) = {
     [PropertyNotify] = propertynotify,
     [UnmapNotify] = unmapnotify};
 static Atom wmatom[WMLast], netatom[NetLast];
+static int restart = 0;
 static int running = 1;
 static char *termcmd[] = {NULL, NULL};
 static Cur *cursor[CurLast];
@@ -1476,7 +1479,11 @@ void propertynotify(XEvent *e) {
   }
 }
 
-void quit(const Arg *arg) { running = 0; }
+void quit(const Arg *arg) {
+  if (arg->i)
+    restart = 1;
+  running = 0;
+}
 
 Monitor *recttomon(int x, int y, int w, int h) {
   Monitor *m, *r = selmon;
@@ -1758,6 +1765,9 @@ void setup(void) {
     die("couldn't load " TERMINAL_ENVVAR " environment variable.");
   }
 
+  signal(SIGHUP, sighup);
+  signal(SIGTERM, sigterm);
+
   /* init screen */
   screen = DefaultScreen(dpy);
   sw = DisplayWidth(dpy, screen);
@@ -1847,6 +1857,16 @@ void showhide(Client *c) {
     showhide(c->snext);
     XMoveWindow(dpy, c->win, WIDTH(c) * -2, c->y);
   }
+}
+
+void sighup(int unused) {
+  Arg a = {.i = 1};
+  quit(&a);
+}
+
+void sigterm(int unused) {
+  Arg a = {.i = 0};
+  quit(&a);
 }
 
 void spawn(const Arg *arg) {
@@ -2679,6 +2699,8 @@ int main(int argc, char *argv[]) {
 #endif /* __OpenBSD__ */
   scan();
   run();
+  if (restart)
+    execvp(argv[0], argv);
   cleanup();
   XCloseDisplay(dpy);
   return EXIT_SUCCESS;
