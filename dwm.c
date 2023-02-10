@@ -499,6 +499,7 @@ void buttonpress(XEvent *e) {
   /* focus monitor if necessary */
   if ((m = wintomon(ev->window)) && m != selmon) {
     unfocus(selmon->sel, 1);
+    XWarpPointer(dpy, None, m->barwin, 0, 0, 0, 0, m->mw / 2, m->mh / 2);
     selmon = m;
     focus(NULL);
   }
