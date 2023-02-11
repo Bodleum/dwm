@@ -242,7 +242,7 @@ static void focusstack(const Arg *arg);
 static Atom getatomprop(Client *c, Atom prop);
 static int getrootptr(int *x, int *y);
 static long getstate(Window w);
-static pid_t getstatusbarpid();
+static pid_t getstatusbarpid(void);
 static int gettextprop(Window w, Atom atom, char *text, unsigned int size);
 static void grabbuttons(Client *c, int focused);
 static void grabkeys(void);
@@ -1097,7 +1097,7 @@ Atom getatomprop(Client *c, Atom prop) {
   return atom;
 }
 
-pid_t getstatusbarpid() {
+pid_t getstatusbarpid(void) {
   char buf[32], *str = buf, *c;
   FILE *fp;
 
@@ -2551,7 +2551,7 @@ void updatebarpos(Monitor *m) {
     m->by = -bh;
 }
 
-void updateclientlist() {
+void updateclientlist(void) {
   Client *c, *d;
   Monitor *m;
 

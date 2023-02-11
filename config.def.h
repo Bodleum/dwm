@@ -56,10 +56,9 @@ static const int swalretroactive = 1;
 static const char swalsymbol[] = "ðŸ‘…";
 
 /* layout(s) */
-static const float mfact = 0.55; /* factor of master area size [0.05..0.95] */
-static const int nmaster = 1;    /* number of clients in master area */
-static const int resizehints =
-    1; /* 1 means respect size hints in tiled resizals */
+static float mfact = 0.55;  /* factor of master area size [0.05..0.95] */
+static int nmaster = 1;     /* number of clients in master area */
+static int resizehints = 1; /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen =
     1; /* 1 will force focus on the fullscreen window */
 
@@ -158,7 +157,7 @@ static const Key keys[] = {
     {MODKEY, XK_comma, spawn, SHCMD("mpc prev")},
     {MODKEY | ShiftMask, XK_comma, spawn, SHCMD("mpc seek 0%")},
     {MODKEY, XK_period, spawn, SHCMD("mpc next")},
-    {MODKEY, XK_Return, spawn, {.v = {termcmd, NULL}}},
+    {MODKEY, XK_Return, spawn, {.v = termcmd}},
     {MODKEY, XK_Print, spawn, SHCMD("prtscr.sh")},
     {Mod1Mask, XK_space, spawn, SHCMD("dmenu_run")},
 
