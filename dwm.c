@@ -1655,9 +1655,14 @@ void resizeclient(Client *c, int x, int y, int w, int h) {
 
 void resizemouse(const Arg *arg) {
   int ocx, ocy, nw, nh;
+  int ocx2, ocy2, nx, ny;
   Client *c;
   Monitor *m;
   XEvent ev;
+  int horizcorner, vertcorner;
+  int di;
+  unsigned int dui;
+  Window dummy;
   Time lasttime = 0;
 
   if (!(c = selmon->sel))
@@ -1667,11 +1672,18 @@ void resizemouse(const Arg *arg) {
   restack(selmon);
   ocx = c->x;
   ocy = c->y;
+  ocx2 = c->x + c->w;
+  ocy2 = c->y + c->h;
   if (XGrabPointer(dpy, root, False, MOUSEMASK, GrabModeAsync, GrabModeAsync,
                    None, cursor[CurResize]->cursor, CurrentTime) != GrabSuccess)
     return;
-  XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, c->w + c->bw - 1,
-               c->h + c->bw - 1);
+  if (!XQueryPointer(dpy, c->win, &dummy, &dummy, &di, &di, &nx, &ny, &dui))
+    return;
+  horizcorner = nx < c->w / 2;
+  vertcorner = ny < c->h / 2;
+  XWarpPointer(dpy, None, c->win, 0, 0, 0, 0,
+               horizcorner ? (-c->bw) : (c->w + c->bw - 1),
+               vertcorner ? (-c->bw) : (c->h + c->bw - 1));
   do {
     XMaskEvent(dpy, MOUSEMASK | ExposureMask | SubstructureRedirectMask, &ev);
     switch (ev.type) {
@@ -1685,8 +1697,13 @@ void resizemouse(const Arg *arg) {
         continue;
       lasttime = ev.xmotion.time;
 
-      nw = MAX(ev.xmotion.x - ocx - 2 * c->bw + 1, 1);
-      nh = MAX(ev.xmotion.y - ocy - 2 * c->bw + 1, 1);
+      nx = horizcorner ? ev.xmotion.x : c->x;
+      ny = vertcorner ? ev.xmotion.y : c->y;
+      nw = MAX(horizcorner ? (ocx2 - nx) : (ev.xmotion.x - ocx - 2 * c->bw + 1),
+               1);
+      nh = MAX(vertcorner ? (ocy2 - ny) : (ev.xmotion.y - ocy - 2 * c->bw + 1),
+               1);
+
       if (c->mon->wx + nw >= selmon->wx &&
           c->mon->wx + nw <= selmon->wx + selmon->ww &&
           c->mon->wy + nh >= selmon->wy &&
@@ -1696,12 +1713,13 @@ void resizemouse(const Arg *arg) {
           togglefloating(NULL);
       }
       if (!selmon->lt[selmon->sellt]->arrange || c->isfloating)
-        resize(c, c->x, c->y, nw, nh, 1);
+        resize(c, nx, ny, nw, nh, 1);
       break;
     }
   } while (ev.type != ButtonRelease);
-  XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, c->w + c->bw - 1,
-               c->h + c->bw - 1);
+  XWarpPointer(dpy, None, c->win, 0, 0, 0, 0,
+               horizcorner ? (-c->bw) : (c->w + c->bw - 1),
+               vertcorner ? (-c->bw) : (c->h + c->bw - 1));
   XUngrabPointer(dpy, CurrentTime);
   while (XCheckMaskEvent(dpy, EnterWindowMask, &ev))
     ;
@@ -1888,7 +1906,8 @@ void setup(void) {
   sa.sa_handler = SIG_IGN;
   sigaction(SIGCHLD, &sa, NULL);
 
-  /* clean up any zombies (inherited from .xinitrc etc) immediately */
+  /* clean up any zombies (inherited from .xinitrc etc) immediately
+   */
   while (waitpid(-1, NULL, WNOHANG) > 0)
     ;
 
@@ -2032,22 +2051,23 @@ void swal(Client *swer, Client *swee, int manage) {
   Client *c, **pc;
   int sweefocused = selmon->sel == swee;
 
-  /* Remove any swallows registered for the swer. Asking a swallower to
-   * swallow another window is ambiguous and is thus avoided altogether. In
-   * contrast, a swallowee can swallow in a well-defined manner by attaching
-   * to the head of the swallow chain. */
+  /* Remove any swallows registered for the swer. Asking a
+   * swallower to swallow another window is ambiguous and is thus
+   * avoided altogether. In contrast, a swallowee can swallow in a
+   * well-defined manner by attaching to the head of the swallow
+   * chain. */
   if (!manage)
     swalunreg(swer);
 
-  /* Disable fullscreen prior to swallow. Swallows involving fullscreen
-   * windows produces quirky artefacts such as fullscreen terminals or tiled
-   * pseudo-fullscreen windows. */
+  /* Disable fullscreen prior to swallow. Swallows involving
+   * fullscreen windows produces quirky artefacts such as
+   * fullscreen terminals or tiled pseudo-fullscreen windows. */
   setfullscreen(swer, 0);
   setfullscreen(swee, 0);
 
-  /* Swap swallowee into client and focus lists. Keeps current focus unless
-   * the swer (which gets unmapped) is focused in which case the swee will
-   * receive focus. */
+  /* Swap swallowee into client and focus lists. Keeps current
+   * focus unless the swer (which gets unmapped) is focused in
+   * which case the swee will receive focus. */
   detach(swee);
   for (pc = &swer->mon->clients; *pc && *pc != swer; pc = &(*pc)->next)
     ;
@@ -2070,7 +2090,8 @@ void swal(Client *swer, Client *swee, int manage) {
     ;
   c->swallowedby = swer;
 
-  /* Configure geometry params obtained from patches (e.g. cfacts) here. */
+  /* Configure geometry params obtained from patches (e.g. cfacts)
+   * here. */
   // swee->cfact = swer->cfact;
 
   /* ICCCM 4.1.3.1 */
@@ -2120,7 +2141,8 @@ void swalreg(Client *c, const char *class, const char *inst,
         s->title[0] = '\0';
       s->decay = swaldecay;
 
-      /* Only one swallow per client. May return after first hit. */
+      /* Only one swallow per client. May return after first hit.
+       */
       return;
     }
   }
@@ -2165,10 +2187,10 @@ void swalmanage(Swallow *s, Window w, XWindowAttributes *wa) {
   swer = s->client;
   swalrm(s);
 
-  /* Perform bare minimum setup of a client for window 'w' such that swal()
-   * may be used to perform the swallow. The following lines are basically a
-   * minimal implementation of manage() with a few chunks delegated to
-   * swal(). */
+  /* Perform bare minimum setup of a client for window 'w' such
+   * that swal() may be used to perform the swallow. The following
+   * lines are basically a minimal implementation of manage() with
+   * a few chunks delegated to swal(). */
   swee = ecalloc(1, sizeof(Client));
   swee->win = w;
   swee->mon = swer->mon;
@@ -2248,8 +2270,8 @@ void swalmouse(const Arg *arg) {
   if ((swer = wintoclient(ev.xbutton.subwindow)) && swer != swee)
     swal(swer, swee, 0);
 
-  /* Remove accumulated pending EnterWindow events caused by the mouse
-   * movements. */
+  /* Remove accumulated pending EnterWindow events caused by the
+   * mouse movements. */
   XCheckMaskEvent(dpy, EnterWindowMask, &ev);
 }
 
@@ -2284,7 +2306,8 @@ void swalunreg(Client *c) {
   for (s = swallows; s; s = s->next) {
     if (c == s->client) {
       swalrm(s);
-      /* Max. 1 registered swallow per client. No need to continue. */
+      /* Max. 1 registered swallow per client. No need to continue.
+       */
       break;
     }
   }
@@ -2311,7 +2334,8 @@ void swalstop(Client *swee, Client *root) {
   root->snext = swer;
   swer->isfloating = swee->isfloating;
 
-  /* Configure geometry params obtained from patches (e.g. cfacts) here. */
+  /* Configure geometry params obtained from patches (e.g. cfacts)
+   * here. */
   // swer->cfact = 1.0;
 
   /* If swer is not in tiling mode reuse swee's geometry. */
