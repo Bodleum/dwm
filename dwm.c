@@ -51,6 +51,7 @@
   (mask & ~(numlockmask | LockMask) &                                          \
    (ShiftMask | ControlMask | Mod1Mask | Mod2Mask | Mod3Mask | Mod4Mask |      \
     Mod5Mask))
+#define INC(X) ((X) + 2000)
 #define INTERSECT(x, y, w, h, m)                                               \
   (MAX(0, MIN((x) + (w), (m)->wx + (m)->ww) - MAX((x), (m)->wx)) *             \
    MAX(0, MIN((y) + (h), (m)->wy + (m)->wh) - MAX((y), (m)->wy)))
@@ -359,7 +360,7 @@ static void (*handler[LASTEvent])(XEvent *) = {
 static Atom wmatom[WMLast], netatom[NetLast];
 static int restart = 0;
 static int running = 1;
-static char *termcmd[] = {NULL, NULL};
+static char *termcmd[] = {NULL};
 static Cur *cursor[CurLast];
 static Clr **scheme;
 static Display *dpy;
@@ -2946,6 +2947,7 @@ int main(int argc, char *argv[]) {
     die("pledge");
 #endif /* __OpenBSD__ */
   scan();
+  system("killall -q dwmblocks; dwmblocks &");
   restoreSession();
   run();
   if (restart)
