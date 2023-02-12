@@ -5,11 +5,14 @@
 #include <X11/XF86keysym.h>
 
 /* appearance */
-static const int startontag = 1;  /* 0 means no tag active on start */
-static unsigned int borderpx = 1; /* border pixel of windows */
-static unsigned int snap = 32;    /* snap pixel */
-static int showbar = 1;           /* 0 means no bar */
-static int topbar = 1;            /* 0 means bottom bar */
+static const int startontag = 1;    /* 0 means no tag active on start */
+static unsigned int borderpx = 1;   /* border pixel of windows */
+static const int startwithgaps = 0; /* 1 means gaps are used by default */
+static const unsigned int gappx =
+    10;                        /* default gap between windows in pixels */
+static unsigned int snap = 32; /* snap pixel */
+static int showbar = 1;        /* 0 means no bar */
+static int topbar = 1;         /* 0 means bottom bar */
 static char font[] = "JetBrainsMono Nerd Font:size=14";
 static char dmenufont[] = "JetBrainsMono Nerd Font:size=12";
 static const char *fonts[] = {font};
@@ -126,12 +129,16 @@ static const Key keys[] = {
     // WM Actions
     {MODKEY, XK_b, togglebar, {0}},
     {MODKEY, XK_f, togglefullscr, {0}},
+    {MODKEY, XK_g, setgaps, {.i = GAP_TOGGLE}},
+    {MODKEY | ShiftMask, XK_g, setgaps, {.i = GAP_RESET}},
     {MODKEY, XK_h, setmfact, {.f = -0.05}},
     {MODKEY, XK_j, focusstack, {.i = INC(+1)}},
     {MODKEY, XK_k, focusstack, {.i = INC(-1)}},
     {MODKEY, XK_l, setmfact, {.f = 0.05}},
     {MODKEY, XK_q, killclient, {0}},
     {MODKEY, XK_v, focusstack, {.i = 0}},
+    {MODKEY, XK_x, setgaps, {.i = -5}},
+    {MODKEY, XK_z, setgaps, {.i = +5}},
     {MODKEY, XK_space, zoom, {0}}, // Make current window master
     {MODKEY | ShiftMask, XK_space, togglefloating, {0}},
     {MODKEY, XK_Left, focusmon, {.i = -1}},
@@ -187,10 +194,10 @@ static const Button buttons[] = {
     {ClkStatusText, ShiftMask, Button5, sigstatusbar, {.i = 10}},
 #endif
     {ClkClientWin, MODKEY, Button1, movemouse, {0}},
-    /* {ClkClientWin, MODKEY, Button2, defaultgaps, {0}}, */
+    {ClkClientWin, MODKEY, Button2, setgaps, {.i = GAP_RESET}},
     {ClkClientWin, MODKEY, Button3, resizemouse, {0}},
-    /* {ClkClientWin, MODKEY, Button4, incrgaps, {.i = +1}}, */
-    /* {ClkClientWin, MODKEY, Button5, incrgaps, {.i = -1}}, */
+    {ClkClientWin, MODKEY, Button4, setgaps, {.i = +1}},
+    {ClkClientWin, MODKEY, Button5, setgaps, {.i = -1}},
     {ClkTagBar, 0, Button1, view, {0}},
     {ClkTagBar, 0, Button3, toggleview, {0}},
     {ClkTagBar, MODKEY, Button1, tag, {0}},
