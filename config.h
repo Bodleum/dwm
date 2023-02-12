@@ -16,16 +16,28 @@ static int topbar = 1;         /* 0 means bottom bar */
 static char font[] = "JetBrainsMono Nerd Font:size=14";
 static char dmenufont[] = "JetBrainsMono Nerd Font:size=12";
 static const char *fonts[] = {font};
-static char normbgcolor[] = "#222222";
-static char normbordercolor[] = "#444444";
-static char normfgcolor[] = "#bbbbbb";
-static char selfgcolor[] = "#eeeeee";
-static char selbordercolor[] = "#005577";
-static char selbgcolor[] = "#005577";
+static char col_white[] = "#fbf1c7";
+static char col0[] = "#282828";
+static char col1[] = "#cc241d";
+static char col2[] = "#98971a";
+static char col3[] = "#d79921";
+static char col4[] = "#458588";
+static char col5[] = "#b16286";
+static char col6[] = "#689d6a";
+static char col7[] = "#a89984";
+static char col8[] = "#928374";
+static char col9[] = "#fb4934";
+static char col10[] = "#b8bb26";
+static char col11[] = "#fabd2f";
+static char col12[] = "#83a598";
+static char col13[] = "#d3869b";
+static char col14[] = "#8ec07c";
+static char col15[] = "#ebdbb2";
+static char col16[] = "#d65d0e";
 static char *colors[][3] = {
     /*               fg           bg           border   */
-    [SchemeNorm] = {normfgcolor, normbgcolor, normbordercolor},
-    [SchemeSel] = {selfgcolor, selbgcolor, selbordercolor},
+    [SchemeNorm] = {col15, col0, col0},
+    [SchemeSel] = {col_white, col4, col4},
 };
 
 /* tagging */
@@ -96,31 +108,33 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] =
     "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = {"dmenu_run", "-m",  dmenumon,       "-fn",
-                                 dmenufont,   "-nb", normbgcolor,    "-nf",
-                                 normfgcolor, "-sb", selbordercolor, "-sf",
-                                 selfgcolor,  NULL};
+/* static const char *dmenucmd[] = {"dmenu_run", "-m",  dmenumon,       "-fn",
+ */
+/*                                  dmenufont,   "-nb", normbgcolor,    "-nf",
+ */
+/*                                  normfgcolor, "-sb", selbordercolor, "-sf",
+ */
+/*                                  selfgcolor,  NULL}; */
 #define TERMINAL_ENVVAR "TERMINAL"
 
 /*
  * Xresources preferences to load at startup
  */
 ResourcePref resources[] = {
-    {"font", STRING, &font},
-    {"dmenufont", STRING, &dmenufont},
-    {"normbgcolor", STRING, &normbgcolor},
-    {"normbordercolor", STRING, &normbordercolor},
-    {"normfgcolor", STRING, &normfgcolor},
-    {"selbgcolor", STRING, &selbgcolor},
-    {"selbordercolor", STRING, &selbordercolor},
-    {"selfgcolor", STRING, &selfgcolor},
-    {"borderpx", INTEGER, &borderpx},
-    {"snap", INTEGER, &snap},
-    {"showbar", INTEGER, &showbar},
-    {"topbar", INTEGER, &topbar},
-    {"nmaster", INTEGER, &nmaster},
-    {"resizehints", INTEGER, &resizehints},
-    {"mfact", FLOAT, &mfact},
+    {"font", STRING, &font},          {"dmenufont", STRING, &dmenufont},
+    {"borderpx", INTEGER, &borderpx}, {"snap", INTEGER, &snap},
+    {"showbar", INTEGER, &showbar},   {"topbar", INTEGER, &topbar},
+    {"nmaster", INTEGER, &nmaster},   {"resizehints", INTEGER, &resizehints},
+    {"mfact", FLOAT, &mfact},         {"col_white", STRING, &col_white},
+    {"col0", STRING, &col0},          {"col1", STRING, &col1},
+    {"col2", STRING, &col2},          {"col3", STRING, &col3},
+    {"col4", STRING, &col4},          {"col5", STRING, &col5},
+    {"col6", STRING, &col6},          {"col7", STRING, &col7},
+    {"col8", STRING, &col8},          {"col9", STRING, &col9},
+    {"col10", STRING, &col10},        {"col11", STRING, &col11},
+    {"col12", STRING, &col12},        {"col13", STRING, &col13},
+    {"col14", STRING, &col14},        {"col15", STRING, &col15},
+    {"col16", STRING, &col16},
 };
 
 static const Key keys[] = {
