@@ -146,7 +146,7 @@ static const Key keys[] = {
     {MODKEY, XK_c, spawn, TERMCMD("calcurse")},
     {MODKEY, XK_d, spawn, SHCMD("dmenu_run")},
     {MODKEY, XK_e, spawn, TERMCMD("neomutt")},
-    {MODKEY, XK_e, spawn, TERMCMD("abook")},
+    {MODKEY | ShiftMask, XK_e, spawn, TERMCMD("abook")},
     {MODKEY | ShiftMask, XK_f, spawn, SHCMD("ferdium")},
     {MODKEY, XK_m, spawn, TERMCMD("ncmpcpp")},
     {MODKEY | ShiftMask, XK_m, spawn, SHCMD("pamixer -t")},
@@ -181,9 +181,11 @@ static const Button buttons[] = {
     {ClkStatusText, 0, Button4, sigstatusbar, {.i = 4}},
     {ClkStatusText, 0, Button5, sigstatusbar, {.i = 5}},
     {ClkStatusText, ShiftMask, Button1, sigstatusbar, {.i = 6}},
+    {ClkStatusText, ShiftMask, Button2, sigstatusbar, {.i = 7}},
+    {ClkStatusText, ShiftMask, Button3, sigstatusbar, {.i = 8}},
+    {ClkStatusText, ShiftMask, Button4, sigstatusbar, {.i = 9}},
+    {ClkStatusText, ShiftMask, Button5, sigstatusbar, {.i = 10}},
 #endif
-    /* {ClkStatusText, ShiftMask, Button3, spawn, TERMCMD("nvim
-       ~/.local/src/dwmblocks/config.h")}, */
     {ClkClientWin, MODKEY, Button1, movemouse, {0}},
     /* {ClkClientWin, MODKEY, Button2, defaultgaps, {0}}, */
     {ClkClientWin, MODKEY, Button3, resizemouse, {0}},
