@@ -157,7 +157,7 @@ static const Key keys[] = {
     {MODKEY, XK_comma, spawn, SHCMD("mpc prev")},
     {MODKEY | ShiftMask, XK_comma, spawn, SHCMD("mpc seek 0%")},
     {MODKEY, XK_period, spawn, SHCMD("mpc next")},
-    {MODKEY, XK_Return, spawn, {.v = termcmd}},
+    {MODKEY, XK_Return, spawn, SHCMD("alacritty")},
     {MODKEY, XK_Print, spawn, SHCMD("prtscr.sh")},
     {Mod1Mask, XK_space, spawn, SHCMD("dmenu_run")},
 
