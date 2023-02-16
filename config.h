@@ -11,8 +11,10 @@ static const int startwithgaps = 0; /* 1 means gaps are used by default */
 static const unsigned int gappx =
     10;                        /* default gap between windows in pixels */
 static unsigned int snap = 32; /* snap pixel */
-static int showbar = 1;        /* 0 means no bar */
-static int topbar = 1;         /* 0 means bottom bar */
+static const int swallowfloating =
+    0;                  /* 1 means swallow floating windows by default */
+static int showbar = 1; /* 0 means no bar */
+static int topbar = 1;  /* 0 means bottom bar */
 static char font[] = "JetBrainsMono Nerd Font:size=14";
 static char dmenufont[] = "JetBrainsMono Nerd Font:size=12";
 static const char *fonts[] = {font};
@@ -69,8 +71,10 @@ static const Rule rules[] = {
      *	WM_CLASS(STRING) = instance, class
      *	WM_NAME(STRING) = title
      */
-    /* class      instance    title       tags mask     isfloating   monitor */
-    {NULL, NULL, "Event Tester", 0, 0, -1},
+    /* class     instance  title           tags mask  isfloating  isterminal
+       noswallow  monitor */
+    {"Alacritty", NULL, NULL, 0, 0, 1, 0, -1},
+    {NULL, NULL, "Event Tester", 0, 0, 0, 1, -1}, /* xev */
 };
 
 /* layout(s) */
