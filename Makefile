@@ -38,10 +38,10 @@ dist: clean
 
 only_install:
 	mkdir -p ${DESTDIR}${PREFIX}/bin
-	cp -f dwm dwmc ${DESTDIR}${PREFIX}/bin
+	cp -f dwm ${DESTDIR}${PREFIX}/bin
 	chmod 755 ${DESTDIR}${PREFIX}/bin/dwm
-	cp -f dwmswallow ${DESTDIR}${PREFIX}/bin
-	chmod 755 ${DESTDIR}${PREFIX}/bin/dwmswallow
+	cp -f dwmc ${DESTDIR}${PREFIX}/bin
+	chmod 755 ${DESTDIR}${PREFIX}/bin/dwmc
 	mkdir -p ${DESTDIR}${MANPREFIX}/man1
 	sed "s/VERSION/${VERSION}/g" < dwm.1 > ${DESTDIR}${MANPREFIX}/man1/dwm.1
 	chmod 644 ${DESTDIR}${MANPREFIX}/man1/dwm.1

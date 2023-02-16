@@ -36,7 +36,15 @@ static char col15[] = "#ebdbb2";
 static char col16[] = "#d65d0e";
 static char *colors[][3] = {
     /*               fg           bg           border   */
-    [SchemeNorm] = {col15, col0, col0},
+    [Schemecol0] = {col0, col0, col0},     [Schemecol1] = {col1, col0, col0},
+    [Schemecol2] = {col2, col0, col0},     [Schemecol3] = {col3, col0, col0},
+    [Schemecol4] = {col4, col0, col0},     [Schemecol5] = {col5, col0, col0},
+    [Schemecol6] = {col6, col0, col0},     [Schemecol7] = {col7, col0, col0},
+    [Schemecol8] = {col8, col0, col0},     [Schemecol9] = {col9, col0, col0},
+    [Schemecol10] = {col10, col0, col0},   [Schemecol11] = {col11, col0, col0},
+    [Schemecol12] = {col12, col0, col0},   [Schemecol13] = {col13, col0, col0},
+    [Schemecol14] = {col14, col0, col0},   [Schemecol15] = {col15, col0, col0},
+    [Schemecol16] = {col16, col0, col0},   [SchemeNorm] = {col7, col0, col0},
     [SchemeSel] = {col_white, col4, col4},
 };
 
@@ -64,11 +72,6 @@ static const Rule rules[] = {
     /* class      instance    title       tags mask     isfloating   monitor */
     {NULL, NULL, "Event Tester", 0, 0, -1},
 };
-
-/* window swallowing */
-static const int swaldecay = 3;
-static const int swalretroactive = 1;
-static const char swalsymbol[] = "ðŸ‘…";
 
 /* layout(s) */
 static float mfact = 0.55;  /* factor of master area size [0.05..0.95] */
@@ -180,6 +183,7 @@ static const Key keys[] = {
     {MODKEY, XK_period, spawn, SHCMD("mpc next")},
     {MODKEY, XK_Return, spawn, SHCMD("alacritty")},
     {MODKEY, XK_Print, spawn, SHCMD("prtscr.sh")},
+    {MODKEY | ShiftMask, XK_slash, spawn, TERMCMD("man bodleum-rice")},
     {Mod1Mask, XK_space, spawn, SHCMD("dmenu_run")},
 
     // Tags
