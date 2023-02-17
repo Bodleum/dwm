@@ -334,6 +334,8 @@ static Client *swallowingclient(Window w);
 static Client *termforwin(const Client *c);
 static pid_t winpid(Window w);
 
+static void dumpinfo(const Arg *a);
+
 /* variables */
 static const char broken[] = "broken";
 static char stext[256];
@@ -382,6 +384,21 @@ static xcb_connection_t *xcon;
 struct NumTags {
   char limitexceeded[LENGTH(tags) > 31 ? -1 : 1];
 };
+
+/* Debug things */
+void printclient(Client *c) {
+  if (!c)
+    return;
+  printf("%s\n", c->name);
+  printclient(c->snext);
+}
+void dumpinfo(const Arg *a) {
+  Client *c = selmon->stack;
+  printf("\n\n");
+  printclient(c);
+  fflush(stdout);
+  return;
+}
 
 /* function implementations */
 void applyrules(Client *c) {
@@ -522,7 +539,6 @@ void attachstack(Client *c) {
 }
 
 void swallow(Client *p, Client *c) {
-
   if (c->noswallow || c->isterminal)
     return;
   if (c->noswallow && !swallowfloating && c->isfloating)

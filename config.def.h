@@ -172,7 +172,6 @@ static const Key keys[] = {
     {MODKEY, XK_F10, spawn, TERMCMD("dmenu_mount.sh")},
     {MODKEY, XK_F11, spawn, TERMCMD("dmenu_unmount.sh")},
     {MODKEY, XK_c, spawn, TERMCMD("calcurse")},
-    {MODKEY, XK_d, spawn, SHCMD("dmenu_run")},
     {MODKEY, XK_e, spawn, TERMCMD("neomutt")},
     {MODKEY | ShiftMask, XK_e, spawn, TERMCMD("abook")},
     {MODKEY | ShiftMask, XK_f, spawn, SHCMD("ferdium")},
@@ -195,6 +194,9 @@ static const Key keys[] = {
         TAGKEYS(XK_5, 4) TAGKEYS(XK_6, 5) TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7)
             TAGKEYS(XK_9, 8){MODKEY, XK_0, view, {.ui = ~0}},
     {MODKEY | ShiftMask, XK_0, tag, {.ui = ~0}},
+
+    // Debug
+    {MODKEY, XK_d, dumpinfo, {0}},
 };
 
 /* button definitions */
@@ -268,4 +270,5 @@ static Signal signals[] = {
     {"quit", quit},
     {"setlayout", setlayout},
     {"setlayoutex", setlayoutex},
+    {"dumpinfo", dumpinfo},
 };
